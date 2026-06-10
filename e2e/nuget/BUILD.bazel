@@ -17,13 +17,17 @@ fable_binary(
     name = "app_fable",
     srcs = ["Program.fs"],
     deps = [
-        "@paket.main//thoth.json.javascript",
+        "@paket.main//fsharp.core",
+        "@paket.main//thoth.json.core",
     ],
 )
 
 fable_js_binary(
     name = "app_js",
     binary = ":app_fable",
+    deps = [
+        "@paket.main//thoth.json.javascript",
+    ],
 )
 
 js_binary(
