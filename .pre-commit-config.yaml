@@ -25,7 +25,6 @@ repos:
       - id: detect-private-key
       - id: end-of-file-fixer
         exclude: '\.fsproj$'
-        exclude: '\paket.references$'
       - id: trailing-whitespace
   # Check formatting and lint for starlark code
   - repo: https://github.com/keith/pre-commit-buildifier
