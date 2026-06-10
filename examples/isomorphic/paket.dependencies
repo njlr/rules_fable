@@ -1,0 +1,9 @@
+source https://api.nuget.org/v3/index.json
+
+storage: none
+framework: net8.0, netstandard2.1
+
+nuget Thoth.Json.Core
+nuget Thoth.Json.JavaScript
+nuget Thoth.Json.Python
+nuget Thoth.Json.System.Text.Json

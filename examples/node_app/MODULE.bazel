@@ -1,0 +1,8 @@
+bazel_dep(name = "rules_fable", version = "0.0.0")
+bazel_dep(name = "rules_nodejs", version = "6.7.4")
+bazel_dep(name = "aspect_rules_js", version = "3.2.1")
+
+local_path_override(
+    module_name = "rules_fable",
+    path = "../..",
+)

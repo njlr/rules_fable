@@ -1,0 +1,41 @@
+load("@aspect_rules_js//js:defs.bzl", "js_binary")
+load("@rules_fable//fable:defs.bzl", "fable_binary", "fable_js_binary")
+load("@rules_dotnet//dotnet:defs.bzl", "fsharp_binary")
+
+fsharp_binary(
+    name = "app",
+    srcs = ["Program.fs"],
+    target_frameworks = ["net8.0"],
+    deps = [
+        "@paket.main//fsharp.core",
+        "@paket.main//thoth.json.core",
+        "@paket.main//thoth.json.system.text.json",
+    ],
+)
+
+fable_binary(
+    name = "app_fable",
+    srcs = ["Program.fs"],
+    deps = [
+        "@paket.main//thoth.json.javascript",
+    ],
+)
+
+fable_js_binary(
+    name = "app_js",
+    binary = ":app_fable",
+)
+
+js_binary(
+    name = "node_app",
+    entry_point = ":app_js",
+    data = [":app_js"],
+)
+
+build_test(
+    name = "nuget",
+    targets = [
+        ":app",
+        ":node_app",
+    ],
+)

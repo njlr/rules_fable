@@ -1,0 +1,53 @@
+load("@aspect_rules_js//js:defs.bzl", "js_binary")
+load("@rules_fable//fable:defs.bzl", "fable_binary", "fable_js_binary", "fable_py_binary")
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@rules_dotnet//dotnet:defs.bzl", "fsharp_binary")
+
+fsharp_binary(
+    name = "app",
+    srcs = ["Program.fs"],
+    target_frameworks = ["net8.0"],
+    deps = [
+        "@paket.main//fsharp.core",
+        "@paket.main//thoth.json.core",
+        "@paket.main//thoth.json.system.text.json",
+        "//shared",
+    ],
+)
+
+fable_binary(
+    name = "app_fable",
+    srcs = ["Program.fs"],
+    deps = [
+        "//shared:shared_fable",
+    ],
+)
+
+fable_js_binary(
+    name = "app_js",
+    binary = ":app_fable",
+    deps = [
+        "@paket.main//thoth.json.javascript",
+    ],
+)
+
+fable_py_binary(
+    name = "app_py",
+    binary = ":app_fable",
+    deps = [
+        "@paket.main//thoth.json.python",
+    ],
+)
+
+py_binary(
+    name = "python_app",
+    srcs = [":app_py"],
+    main = "app_py.py",
+    data = [":app_py"],
+)
+
+js_binary(
+    name = "node_app",
+    entry_point = ":app_js",
+    data = [":app_js"],
+)

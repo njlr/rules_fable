@@ -1,0 +1,30 @@
+"""Provides a simple way to test your rules as an external workspace.
+Add a basic smoke-test target below.
+"""
+
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("@rules_fable//fable:defs.bzl", "fable_js_library", "fable_py_library", "fable_library")
+
+fable_library(
+    name = "hello_lib",
+    srcs = ["Hello.fs"],
+)
+
+fable_js_library(
+    name = "hello_js",
+    library = ":hello_lib",
+)
+
+fable_py_library(
+    name = "hello_py",
+    library = ":hello_lib",
+)
+
+build_test(
+    name = "smoke_test",
+    targets = [
+        ":hello_lib",
+        ":hello_js",
+        ":hello_py",
+    ],
+)

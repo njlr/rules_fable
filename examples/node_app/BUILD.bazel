@@ -1,0 +1,18 @@
+load("@rules_fable//fable:defs.bzl", "fable_binary", "fable_js_binary")
+load("@aspect_rules_js//js:defs.bzl", "js_binary")
+
+fable_binary(
+    name = "console",
+    srcs = ["Program.fs"],
+)
+
+fable_js_binary(
+    name = "console_js",
+    binary = ":console",
+)
+
+js_binary(
+    name = "console_app",
+    entry_point = ":console_js",
+    data = [ ":console_js" ],
+)
