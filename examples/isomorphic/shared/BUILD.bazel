@@ -1,26 +1,26 @@
-load("@rules_fable//fable:defs.bzl", "fable_library", "fable_py_library")
 load("@rules_dotnet//dotnet:defs.bzl", "fsharp_library")
+load("@rules_fable//fable:defs.bzl", "fable_library")
 
 fsharp_library(
     name = "shared",
     srcs = ["Library.fs"],
     target_frameworks = ["netstandard2.1"],
+    visibility = [
+        "//visibility:public",
+    ],
     deps = [
         "@paket.main//fsharp.core",
         "@paket.main//thoth.json.core",
-    ],
-    visibility = [
-        "//visibility:public",
     ],
 )
 
 fable_library(
     name = "shared_fable",
     srcs = ["Library.fs"],
-    deps = [
-        "@paket.main//thoth.json.core",
-    ],
     visibility = [
         "//visibility:public",
+    ],
+    deps = [
+        "@paket.main//thoth.json.core",
     ],
 )

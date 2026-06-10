@@ -1,5 +1,5 @@
-load("@rules_fable//fable:defs.bzl", "fable_binary", "fable_js_binary")
 load("@aspect_rules_js//js:defs.bzl", "js_binary")
+load("@rules_fable//fable:defs.bzl", "fable_binary", "fable_js_binary")
 
 fable_binary(
     name = "console",
@@ -13,6 +13,6 @@ fable_js_binary(
 
 js_binary(
     name = "console_app",
+    data = [":console_js"],
     entry_point = ":console_js",
-    data = [ ":console_js" ],
 )

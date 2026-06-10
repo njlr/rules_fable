@@ -3,7 +3,7 @@ Add a basic smoke-test target below.
 """
 
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
-load("@rules_fable//fable:defs.bzl", "fable_js_library", "fable_py_library", "fable_library")
+load("@rules_fable//fable:defs.bzl", "fable_js_library", "fable_library", "fable_py_library")
 
 fable_library(
     name = "hello_lib",

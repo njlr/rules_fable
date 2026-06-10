@@ -1,6 +1,6 @@
 load("@aspect_rules_js//js:defs.bzl", "js_binary")
-load("@rules_fable//fable:defs.bzl", "fable_binary", "fable_js_binary")
 load("@rules_dotnet//dotnet:defs.bzl", "fsharp_binary")
+load("@rules_fable//fable:defs.bzl", "fable_binary", "fable_js_binary")
 
 fsharp_binary(
     name = "app",
@@ -28,8 +28,8 @@ fable_js_binary(
 
 js_binary(
     name = "node_app",
-    entry_point = ":app_js",
     data = [":app_js"],
+    entry_point = ":app_js",
 )
 
 build_test(
