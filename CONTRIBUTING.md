@@ -27,20 +27,14 @@ Run `bazel run //:gazelle` to keep them up-to-date.
 
 ## Using this as a development dependency of other rules
 
-You'll commonly find that you develop in another WORKSPACE, such as
-some other ruleset that depends on rules_fable, or in a nested
-WORKSPACE in the integration_tests folder.
+Use a bzlmod local override in the consuming module:
 
-To always tell Bazel to use this directory rather than some release
-artifact or a version fetched from the internet, run this from this
-directory:
-
-```sh
-OVERRIDE="--override_repository=rules_fable=$(pwd)/rules_fable"
-echo "common $OVERRIDE" >> ~/.bazelrc
+```starlark
+local_path_override(
+    module_name = "rules_fable",
+    path = "/path/to/rules_fable",
+)
 ```
-
-This means that any usage of `@rules_fable` on your system will point to this folder.
 
 ## Releasing
 

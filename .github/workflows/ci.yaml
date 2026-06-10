@@ -25,7 +25,11 @@ jobs:
         ]
       exclude: |
         [
+          {"bzlmodEnabled": false},
+          {"bazelVersion": "6.4.0"},
           {"folder": ".", "bzlmodEnabled": false},
+          {"folder": "e2e/smoke", "bzlmodEnabled": false},
+          {"folder": "e2e/nuget", "bzlmodEnabled": false},
           {"folder": ".", "bazelVersion": "6.4.0"}
         ]
   pre-commit:
