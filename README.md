@@ -6,6 +6,11 @@ With bzlmod:
 
 ```starlark
 bazel_dep(name = "rules_fable", version = "0.0.0")
+
+fable_toolchains = use_extension("@rules_fable//fable:extensions.bzl", "toolchains")
+fable_toolchains.toolchain(fable_version = "4.29.0")
+use_repo(fable_toolchains, "fable_toolchains")
+register_toolchains("@fable_toolchains//:fable_toolchain")
 ```
 
 ## Usage
@@ -56,11 +61,12 @@ and includes the rest of the generated output in runfiles, so it can be passed
 directly to `rules_js` targets such as
 `js_binary(entry_point = ":app_js", data = [":app_js"])`.
 
-The default Fable tool and baseline `Fable.Core` package feed entry are
-predeclared through the `rules_fable` bzlmod extension with NuGet SHA512
-integrity values. The transpilation action builds a local NuGet feed from
-declared `.nupkg` files and restores from that feed, rather than resolving
-package versions during the action.
+The Fable compiler is selected through a Bazel toolchain. Known compiler
+versions and their locked NuGet SHA512 metadata live in
+`@rules_fable//fable:versions.bzl`; the `toolchains` extension creates a
+toolchain repository for the selected version. The transpilation action builds
+a local NuGet feed from declared `.nupkg` files and restores from that feed,
+rather than resolving package versions during the action.
 
 The default toolchain is .NET SDK `8.0.100`, with Fable `4.29.0`, generated
 Fable projects targeting `netstandard2.1`, and baseline `Fable.Core` feed

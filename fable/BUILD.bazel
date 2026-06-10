@@ -16,10 +16,26 @@ bzl_library(
 bzl_library(
     name = "extensions",
     srcs = ["extensions.bzl"],
-    deps = [":nuget"],
+    deps = [
+        ":nuget",
+        ":repositories",
+        ":versions",
+    ],
 )
 
 bzl_library(
     name = "nuget",
     srcs = ["nuget.bzl"],
+    deps = [":versions"],
+)
+
+bzl_library(
+    name = "repositories",
+    srcs = ["repositories.bzl"],
+    deps = [":versions"],
+)
+
+bzl_library(
+    name = "versions",
+    srcs = ["versions.bzl"],
 )

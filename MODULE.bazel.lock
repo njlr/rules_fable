@@ -124,10 +124,10 @@
   },
   "selectedYankedVersions": {},
   "moduleExtensions": {
-    "//fable:extensions.bzl%nuget": {
+    "//fable:extensions.bzl%toolchains": {
       "general": {
-        "bzlTransitiveDigest": "AIc1hLMEZ6aEDsOtECjbn0mHC+wfAI2jyT2jA+n0FS4=",
-        "usagesDigest": "4CkijOLZbigAsnxGhZeBmzyvKLiRs0oNMGiG8k2uMZo=",
+        "bzlTransitiveDigest": "dDZ4qOFHaHqkb56hcYHT9gG8wRhe+pSCmJPj89vG11A=",
+        "usagesDigest": "xxfjBqlkjh2CXxEGDjiXHs2nVh0Fbk3RDWxGMcLaRrM=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -173,6 +173,13 @@
                 "fable|4.29.0": [],
                 "fable.core|4.4.0": []
               }
+            }
+          },
+          "fable_toolchains": {
+            "bzlFile": "@@//fable:repositories.bzl",
+            "ruleClassName": "fable_toolchain_repository",
+            "attributes": {
+              "fable_version": "4.29.0"
             }
           }
         },

@@ -12,9 +12,7 @@ local_path_override(
 main_extension = use_extension("//paket/deps:paket.main_extension.bzl", "main_extension")
 use_repo(main_extension, "paket.main")
 
-fable_nuget = use_extension("@rules_fable//fable:extensions.bzl", "nuget")
-use_repo(
-    fable_nuget,
-    "nuget.fable.v4.29.0",
-    "rules_fable_nuget_packages",
-)
+fable_toolchains = use_extension("@rules_fable//fable:extensions.bzl", "toolchains")
+fable_toolchains.toolchain(fable_version = "4.29.0")
+use_repo(fable_toolchains, "fable_toolchains")
+register_toolchains("@fable_toolchains//:fable_toolchain")

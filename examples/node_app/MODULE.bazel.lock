@@ -221,10 +221,10 @@
         "recordedRepoMappingEntries": []
       }
     },
-    "@@rules_fable~//fable:extensions.bzl%nuget": {
+    "@@rules_fable~//fable:extensions.bzl%toolchains": {
       "general": {
-        "bzlTransitiveDigest": "+MjhNy332Bi+xddYozeIPfN/4aIzv9ICtP/1nwqw8JA=",
-        "usagesDigest": "NLotyv9qPD00zVzlQn4zt4JCndwd4fdoJ0O2T6yzuIQ=",
+        "bzlTransitiveDigest": "G1N6ONxQLNN4jvH6xsreVEA7xq80HsCCsy4Cp/eJLVI=",
+        "usagesDigest": "uRsiG0X8wtna6yPYhLuaAGKVgxUe5eAaTbqCdCQXoPA=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -270,6 +270,13 @@
                 "fable|4.29.0": [],
                 "fable.core|4.4.0": []
               }
+            }
+          },
+          "fable_toolchains": {
+            "bzlFile": "@@rules_fable~//fable:repositories.bzl",
+            "ruleClassName": "fable_toolchain_repository",
+            "attributes": {
+              "fable_version": "4.29.0"
             }
           }
         },

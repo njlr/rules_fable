@@ -48,10 +48,7 @@ use_repo(dotnet, "dotnet_toolchains")
 
 register_toolchains("@dotnet_toolchains//:all")
 
-fable_nuget = use_extension("//fable:extensions.bzl", "nuget")
-use_repo(
-    fable_nuget,
-    "nuget.fable.core.v4.4.0",
-    "nuget.fable.v4.29.0",
-    "rules_fable_nuget_packages",
-)
+fable_toolchains = use_extension("//fable:extensions.bzl", "toolchains")
+fable_toolchains.toolchain(fable_version = "4.29.0")
+use_repo(fable_toolchains, "fable_toolchains")
+register_toolchains("@fable_toolchains//:fable_toolchain")

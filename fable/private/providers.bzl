@@ -18,3 +18,12 @@ FableBinaryInfo = provider(
         "entry_point": "The final direct .fs source file, following F# source order convention.",
     },
 )
+
+FableToolchainInfo = provider(
+    doc = "Information needed to run the Fable compiler.",
+    fields = {
+        "fable_version": "Fable compiler version.",
+        "fable_tool_nupkg": "Fable .NET tool NuGet package artifact.",
+        "package_nupkgs": "Baseline NuGet package artifacts always available to generated Fable projects.",
+    },
+)

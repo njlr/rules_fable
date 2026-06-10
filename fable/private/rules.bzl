@@ -2,9 +2,10 @@
 
 load("@rules_dotnet//dotnet/private:providers.bzl", "DotnetAssemblyRuntimeInfo", "NuGetInfo")
 load("@rules_dotnet//dotnet/private/transitions:tfm_transition.bzl", "tfm_transition")
-load(":providers.bzl", "FableBinaryInfo", "FableLibraryInfo")
+load(":providers.bzl", "FableBinaryInfo", "FableLibraryInfo", "FableToolchainInfo")
 
 _DOTNET_TOOLCHAIN = "@rules_dotnet//dotnet:toolchain_type"
+_FABLE_TOOLCHAIN = "//fable:toolchain_type"
 
 def _xml_escape(value):
     return value.replace("&", "&amp;").replace("\"", "&quot;").replace("<", "&lt;").replace(">", "&gt;")
@@ -150,6 +151,17 @@ def _fable_library_impl(ctx):
 def _fable_binary_impl(ctx):
     return _fable_target_impl(ctx, is_binary = True)
 
+def _fable_toolchain_impl(ctx):
+    return [
+        platform_common.ToolchainInfo(
+            fableinfo = FableToolchainInfo(
+                fable_version = ctx.attr.fable_version,
+                fable_tool_nupkg = ctx.file.fable_tool_nupkg,
+                package_nupkgs = depset(ctx.files.package_nupkgs),
+            ),
+        ),
+    ]
+
 _FABLE_TARGET_ATTRS = {
     "srcs": attr.label_list(
         allow_files = [".fs", ".fsi"],
@@ -183,6 +195,26 @@ fable_binary = rule(
     implementation = _fable_binary_impl,
     attrs = _FABLE_TARGET_ATTRS,
     doc = "Collects ordered F# binary sources and treats the final direct .fs file as the entrypoint.",
+)
+
+fable_toolchain = rule(
+    implementation = _fable_toolchain_impl,
+    attrs = {
+        "fable_version": attr.string(
+            mandatory = True,
+            doc = "Fable compiler version.",
+        ),
+        "fable_tool_nupkg": attr.label(
+            allow_single_file = [".nupkg"],
+            mandatory = True,
+            doc = "Fable .NET tool NuGet package.",
+        ),
+        "package_nupkgs": attr.label_list(
+            allow_files = [".nupkg"],
+            doc = "Baseline NuGet package artifacts available to generated Fable projects.",
+        ),
+    },
+    doc = "Defines a Fable compiler toolchain implementation.",
 )
 
 def fable_library(name, **kwargs):
@@ -369,7 +401,8 @@ def _compile_fable(ctx, target, entry_point, language, extension, package_json):
                 module_name,
             ),
         )
-    nupkgs = [ctx.file.fable_tool_nupkg] + ctx.files.package_nupkgs + library.package_nupkgs.to_list() + deps.package_nupkgs.to_list()
+    fable_toolchain = ctx.toolchains[_FABLE_TOOLCHAIN].fableinfo
+    nupkgs = [fable_toolchain.fable_tool_nupkg] + fable_toolchain.package_nupkgs.to_list() + ctx.files.package_nupkgs + library.package_nupkgs.to_list() + deps.package_nupkgs.to_list()
     out_dir = outputs.files[0].dirname if outputs.package_json == None else outputs.package_json.dirname
     dotnet = ctx.toolchains[_DOTNET_TOOLCHAIN].dotnetinfo
 
@@ -419,7 +452,7 @@ cd "$project_dir"
         name = ctx.label.name,
         copy_feed = _copy_feed_fragment(nupkgs),
         nuget_config = _nuget_config(),
-        tool_manifest = _tool_manifest(ctx.attr.fable_version),
+        tool_manifest = _tool_manifest(fable_toolchain.fable_version),
         copy_inputs = _copy_inputs_fragment(srcs),
         project_name = ctx.label.name,
         target_framework = _xml_escape(library.target_framework),
@@ -475,19 +508,9 @@ def _fable_py_binary_impl(ctx):
     return _compile_fable(ctx, binary, binary[FableBinaryInfo].entry_point, "python", ".py", False)
 
 _FABLE_TRANSPILE_ATTRS = {
-    "fable_version": attr.string(
-        default = "4.29.0",
-        doc = "Version of the Fable .NET local tool.",
-    ),
-    "fable_tool_nupkg": attr.label(
-        default = "@nuget.fable.v4.29.0//:fable.4.29.0.nupkg",
-        allow_single_file = [".nupkg"],
-        doc = "Predeclared Fable tool nupkg used as the local NuGet source.",
-    ),
     "package_nupkgs": attr.label_list(
-        default = ["@nuget.fable.core.v4.4.0//:fable.core.4.4.0.nupkg"],
         allow_files = [".nupkg"],
-        doc = "Extra predeclared package nupkgs used as the local NuGet source for project restore.",
+        doc = "Extra package nupkgs used as the local NuGet source for project restore.",
     ),
     "fable_args": attr.string_list(
         doc = "Additional command-line arguments passed after the generated fsproj.",
@@ -516,7 +539,7 @@ fable_js_library = rule(
         ),
     ),
     doc = "Transpiles a fable_library to a JavaScript output directory.",
-    toolchains = [_DOTNET_TOOLCHAIN],
+    toolchains = [_DOTNET_TOOLCHAIN, _FABLE_TOOLCHAIN],
 )
 
 fable_py_library = rule(
@@ -530,7 +553,7 @@ fable_py_library = rule(
         ),
     ),
     doc = "Transpiles a fable_library to a Python output directory.",
-    toolchains = [_DOTNET_TOOLCHAIN],
+    toolchains = [_DOTNET_TOOLCHAIN, _FABLE_TOOLCHAIN],
 )
 
 fable_js_binary = rule(
@@ -544,7 +567,7 @@ fable_js_binary = rule(
         ),
     ),
     doc = "Transpiles a fable_binary to JavaScript and exposes its entrypoint for rules_js.",
-    toolchains = [_DOTNET_TOOLCHAIN],
+    toolchains = [_DOTNET_TOOLCHAIN, _FABLE_TOOLCHAIN],
 )
 
 fable_py_binary = rule(
@@ -558,5 +581,5 @@ fable_py_binary = rule(
         ),
     ),
     doc = "Transpiles a fable_binary to Python and exposes its entrypoint as the default output.",
-    toolchains = [_DOTNET_TOOLCHAIN],
+    toolchains = [_DOTNET_TOOLCHAIN, _FABLE_TOOLCHAIN],
 )

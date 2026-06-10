@@ -1,31 +1,26 @@
 """Predeclared NuGet packages used by rules_fable."""
 
 load("@rules_dotnet//dotnet:defs.bzl", "nuget_repo")
+load(":versions.bzl", "DEFAULT_FABLE_COMPILER_VERSION", "FABLE_COMPILER_VERSIONS")
 
 def rules_fable_nuget_packages():
     """Declares locked NuGet packages used by the default Fable rules."""
+    metadata = FABLE_COMPILER_VERSIONS[DEFAULT_FABLE_COMPILER_VERSION]
+    packages = []
+    for package in [metadata["fable"]] + metadata["baseline_packages"]:
+        packages.append({
+            "id": package["id"],
+            "version": package["version"],
+            "sha512": package["sha512"],
+            "sources": ["https://api.nuget.org/v3/index.json"],
+            "dependencies": _empty_dependencies(),
+            "targeting_pack_overrides": [],
+            "framework_list": [],
+        })
+
     nuget_repo(
         name = "rules_fable_nuget_packages",
-        packages = [
-            {
-                "id": "Fable",
-                "version": "4.29.0",
-                "sha512": "sha512-XJwzk2d24dLQdlf8LDQ16s9bpUGQwiTllDqE5/5jPMX1AVAPA2fwMJ8f2vgjlizidM2hGQvP75TM21Ln0q2lgg==",
-                "sources": ["https://api.nuget.org/v3/index.json"],
-                "dependencies": _empty_dependencies(),
-                "targeting_pack_overrides": [],
-                "framework_list": [],
-            },
-            {
-                "id": "Fable.Core",
-                "version": "4.4.0",
-                "sha512": "sha512-EyhF8YI/3+3Z0ttDiVmshbTM14E+TsT3xARstibvK8Mm97tfBLfeqC1vQpUZkRr8ibax3qcP/tNqUhjHZqY6qQ==",
-                "sources": ["https://api.nuget.org/v3/index.json"],
-                "dependencies": _empty_dependencies(),
-                "targeting_pack_overrides": [],
-                "framework_list": [],
-            },
-        ],
+        packages = packages,
     )
 
 def _empty_dependencies():
