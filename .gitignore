@@ -5,3 +5,7 @@ bazel-*
 
 bin
 obj
+
+.pnpm-store
+
+scratch*.fsx

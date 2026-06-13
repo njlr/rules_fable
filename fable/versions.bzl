@@ -17,6 +17,22 @@ FABLE_COMPILER_VERSIONS = {
             },
         ],
     },
+    "5.1.0": {
+        "fable": {
+            "id": "Fable",
+            "version": "5.1.0",
+            "sha512": "sha512-0nuojNQJ74gGpfBOAzLAh1DQyFClV4pi4WPSDtk67iCU2pxM7Nl8k1JfV6hgvWZAFAI+ncnGCALd1wMdldgZlA==",
+            "label": "@nuget.fable.v5.1.0//:fable.5.1.0.nupkg",
+        },
+        "baseline_packages": [
+            {
+                "id": "Fable.Core",
+                "version": "5.0.0",
+                "sha512": "sha512-65IxKwus/l/ceVMKsB3z41Szb4+1Zj63muviXFEK/u0ixYQjQ/emnFQdwVba6TL4oXhX/8NuHdoEVO+6dBX1gA==",
+                "label": "@nuget.fable.core.v5.0.0//:fable.core.5.0.0.nupkg",
+            },
+        ],
+    },
 }
 
 DEFAULT_FABLE_COMPILER_VERSION = "4.29.0"

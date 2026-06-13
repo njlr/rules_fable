@@ -13,10 +13,16 @@ nuget = module_extension(
 
 def _toolchains_extension_impl(module_ctx):
     fable_version = DEFAULT_FABLE_COMPILER_VERSION
+    root_version = None
     for mod in module_ctx.modules:
         for toolchain in mod.tags.toolchain:
-            fable_version = toolchain.fable_version
-    rules_fable_nuget_packages()
+            if mod.is_root:
+                root_version = toolchain.fable_version
+            elif root_version == None:
+                fable_version = toolchain.fable_version
+    if root_version != None:
+        fable_version = root_version
+    rules_fable_nuget_packages(fable_version = fable_version)
     fable_toolchain_repository(
         name = "fable_toolchains",
         fable_version = fable_version,

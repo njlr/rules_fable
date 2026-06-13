@@ -1,0 +1,25 @@
+load("@rules_fable//fable:defs.bzl", "fable_binary", "fable_js_binary")
+
+fable_binary(
+    name = "app",
+    srcs = ["App.fs"],
+    target_framework = "net10.0",
+    deps = [
+        "@paket.main//fsharp.core",
+        "@paket.main//fable.react",
+        "@paket.main//feliz",
+    ],
+)
+
+fable_js_binary(
+    name = "app_js",
+    binary = ":app",
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "app_js_transpile_outputs",
+    srcs = [":app_js"],
+    output_group = "transpile_outputs",
+    visibility = ["//visibility:public"],
+)

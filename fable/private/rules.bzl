@@ -372,6 +372,11 @@ def _language_args(language):
         return ""
     return "--lang {}".format(_shell_quote(language))
 
+def _dotnet_command(runtime_path):
+    if runtime_path.startswith("/"):
+        return _shell_quote(runtime_path)
+    return '"$execroot/{}"'.format(runtime_path)
+
 def _package_json_fragment(out_dir, package_json):
     if package_json == None:
         return ""
@@ -443,8 +448,8 @@ cat > "$project_dir/{project_name}.fsproj" <<'__FABLE_PROJECT__'
 </Project>
 __FABLE_PROJECT__
 cd "$project_dir"
-"$execroot/{dotnet}" tool restore
-"$execroot/{dotnet}" tool run fable -- "{project_name}.fsproj" --outDir "$execroot/{out_dir}" {language_args} {fable_args}
+{dotnet} tool restore
+{dotnet} tool run fable -- "{project_name}.fsproj" --outDir "$execroot/{out_dir}" {language_args} {fable_args}
 {post_compile}
 """.format(
         out_dir = out_dir,
@@ -459,7 +464,7 @@ cd "$project_dir"
         implicit_fsharp_core = _implicit_fsharp_core_fragment(deps.package_references),
         compile_items = _compile_items_fragment(srcs),
         package_references = _package_references_fragment(deps.package_references),
-        dotnet = dotnet.runtime_path,
+        dotnet = _dotnet_command(dotnet.runtime_path),
         language_args = _language_args(language),
         fable_args = " ".join([_shell_quote(arg) for arg in ctx.attr.fable_args]),
         post_compile = _package_json_fragment(out_dir, outputs.package_json),
@@ -490,6 +495,9 @@ cd "$project_dir"
         DefaultInfo(
             files = depset(default_files),
             runfiles = ctx.runfiles(files = runfiles),
+        ),
+        OutputGroupInfo(
+            transpile_outputs = depset(action_outputs),
         ),
     ]
 

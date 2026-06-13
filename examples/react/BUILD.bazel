@@ -1,0 +1,43 @@
+load("@aspect_rules_webpack//webpack:defs.bzl", "webpack_bundle", "webpack_devserver")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+
+npm_link_all_packages(name = "node_modules")
+
+webpack_bundle(
+    name = "bundle",
+    data = [
+        "//app:app_js",
+    ],
+    deps = [
+        ":node_modules/react",
+        ":node_modules/react-dom",
+    ],
+    entry_points = {
+        "//app:app_js": "app",
+    },
+    node_modules = ":node_modules",
+    output_dir = True,
+    srcs = ["//app:app_js_transpile_outputs"],
+    webpack_config = ":webpack.config.cjs",
+)
+
+webpack_devserver(
+    name = "devserver",
+    args = [
+        "--allowed-hosts",
+        "all",
+        "--client-web-socket-url",
+        "auto://0.0.0.0:0/ws",
+    ],
+    data = [
+        ":index.html",
+        ":node_modules/react",
+        ":node_modules/react-dom",
+        "//app:app_js_transpile_outputs",
+    ],
+    entry_points = {
+        "//app:app_js": "app",
+    },
+    node_modules = ":node_modules",
+    webpack_config = ":webpack.config.cjs",
+)
