@@ -430,6 +430,10 @@ dotnet_path() {{
         printf '%s' "$1"
     fi
 }}
+# Fable invokes dotnet restore by name, including through cmd.exe on Windows.
+# Use the same SDK for those child processes as for the initial tool invocation.
+dotnet_dir="$(cd "$(dirname {dotnet})" && pwd)"
+export PATH="$dotnet_dir:$PATH"
 rm -rf "{out_dir}"
 mkdir -p "{out_dir}"
 export DOTNET_CLI_HOME="$(dotnet_path "$work_dir/dotnet_home")"
@@ -467,6 +471,8 @@ __FABLE_PROJECT__
 cd "$project_dir"
 {dotnet} tool restore
 {dotnet} tool run fable -- "{project_name}.fsproj" --outDir "$execroot/{out_dir}" {language_args} {fable_args}
+# This compiler cache contains absolute machine paths and is not a runtime asset.
+rm -f "$execroot/{out_dir}/fable_modules/project_cracked.json"
 {post_compile}
 """.format(
         out_dir = out_dir,
