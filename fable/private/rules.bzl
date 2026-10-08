@@ -443,6 +443,13 @@ export NUGET_PACKAGES="$(dotnet_path "$work_dir/nuget")"
 export PROGRAMFILES="$(dotnet_path "$work_dir/program_files")"
 export APPDATA="$(dotnet_path "$work_dir/appdata")"
 export LOCALAPPDATA="$(dotnet_path "$work_dir/localappdata")"
+export XDG_DATA_HOME="$(dotnet_path "$work_dir/localappdata")"
+# These caches start empty, so there is no legacy NuGet state to migrate.
+# Mark Unix migration complete to avoid a mutex outside the writable sandbox.
+if ! command -v cygpath >/dev/null 2>&1; then
+    mkdir -p "$work_dir/localappdata/NuGet/Migrations"
+    touch "$work_dir/localappdata/NuGet/Migrations/1"
+fi
 project_dir="$work_dir/project"
 feed_dir="$work_dir/feed"
 {copy_feed}
@@ -504,6 +511,7 @@ rm -f "$execroot/{out_dir}/fable_modules/project_cracked.json"
         inputs = inputs,
         outputs = action_outputs,
         command = command,
+        env = {"DOTNET_CLI_TELEMETRY_OPTOUT": "1"},
         mnemonic = "FableTranspile",
         progress_message = "Transpiling F# with Fable %{label}",
     )
