@@ -5,20 +5,20 @@ npm_link_all_packages(name = "node_modules")
 
 webpack_bundle(
     name = "bundle",
+    srcs = ["//app:app_js_transpile_outputs"],
     data = [
         "//app:app_js",
-    ],
-    deps = [
-        ":node_modules/react",
-        ":node_modules/react-dom",
     ],
     entry_points = {
         "//app:app_js": "app",
     },
     node_modules = ":node_modules",
     output_dir = True,
-    srcs = ["//app:app_js_transpile_outputs"],
     webpack_config = ":webpack.config.cjs",
+    deps = [
+        ":node_modules/react",
+        ":node_modules/react-dom",
+    ],
 )
 
 webpack_devserver(

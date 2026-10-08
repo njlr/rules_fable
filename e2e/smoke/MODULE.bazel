@@ -1,7 +1,7 @@
 bazel_dep(name = "rules_fable", version = "0.0.0", dev_dependency = True)
 bazel_dep(name = "bazel_skylib", version = "1.8.2", dev_dependency = True)
 
-bazel_dep(name = "rules_dotnet", version = "0.20.5")
+bazel_dep(name = "rules_dotnet", version = "0.21.5")
 
 local_path_override(
     module_name = "rules_fable",

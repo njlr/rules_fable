@@ -3,16 +3,15 @@ bazel_dep(name = "bazel_skylib", version = "1.8.2")
 bazel_dep(name = "rules_dotnet", version = "0.20.5")
 bazel_dep(name = "rules_fable", version = "0.0.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.4")
-bazel_dep(name = "rules_python", version = "0.22.1")
+bazel_dep(name = "rules_python", version = "0.23.1")
 
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
 python.toolchain(
-    name = "python_3_11",
-    python_version = "3.11.1",
+    python_version = "3.11",
 )
-use_repo(python, "python_3_11_toolchains")
+use_repo(python, "pythons_hub")
 
-register_toolchains("@python_3_11_toolchains//:all")
+register_toolchains("@pythons_hub//:all")
 
 local_path_override(
     module_name = "rules_fable",

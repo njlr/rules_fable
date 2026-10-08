@@ -5,9 +5,9 @@ fable_binary(
     srcs = ["App.fs"],
     target_framework = "net10.0",
     deps = [
-        "@paket.main//fsharp.core",
         "@paket.main//fable.react",
         "@paket.main//feliz",
+        "@paket.main//fsharp.core",
     ],
 )
 

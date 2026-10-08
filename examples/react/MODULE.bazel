@@ -29,4 +29,5 @@ fable_toolchains.toolchain(fable_version = "5.1.0")
 use_repo(fable_toolchains, "fable_toolchains")
 
 register_toolchains("@dotnet_toolchains//:all")
+
 register_toolchains("@fable_toolchains//:fable_toolchain")
