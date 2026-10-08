@@ -420,12 +420,25 @@ execroot="$PWD"
 work_dir="${{TMPDIR:-/tmp}}/{workspace}_{name}"
 rm -rf "$work_dir"
 mkdir -p "$work_dir/project/.config" "$work_dir/feed" "$work_dir/dotnet_home" "$work_dir/nuget"
+# NuGet reads these Windows folders even when restoring from a local feed.
+mkdir -p "$work_dir/program_files" "$work_dir/appdata" "$work_dir/localappdata"
+# Native dotnet needs Windows paths when this action runs under Git Bash.
+dotnet_path() {{
+    if command -v cygpath >/dev/null 2>&1; then
+        cygpath -w "$1"
+    else
+        printf '%s' "$1"
+    fi
+}}
 rm -rf "{out_dir}"
 mkdir -p "{out_dir}"
-export DOTNET_CLI_HOME="$work_dir/dotnet_home"
+export DOTNET_CLI_HOME="$(dotnet_path "$work_dir/dotnet_home")"
 export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 export DOTNET_NOLOGO=1
-export NUGET_PACKAGES="$work_dir/nuget"
+export NUGET_PACKAGES="$(dotnet_path "$work_dir/nuget")"
+export PROGRAMFILES="$(dotnet_path "$work_dir/program_files")"
+export APPDATA="$(dotnet_path "$work_dir/appdata")"
+export LOCALAPPDATA="$(dotnet_path "$work_dir/localappdata")"
 project_dir="$work_dir/project"
 feed_dir="$work_dir/feed"
 {copy_feed}

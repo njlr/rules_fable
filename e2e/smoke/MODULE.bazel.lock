@@ -352,7 +352,7 @@
     },
     "@@rules_fable+//fable:extensions.bzl%toolchains": {
       "general": {
-        "bzlTransitiveDigest": "yP6+K8oDnBHjC/nZdmZSpwykt2AeViK2SUfzIYGjsM0=",
+        "bzlTransitiveDigest": "47NXef3x4g6c2fD/V0ByNsGUewBYo4dMx6pwRrqmPus=",
         "usagesDigest": "2GBWz8OeAQrnAxUU9eR6oOEm95bEgHR57ID56rthA6M=",
         "recordedInputs": [
           "REPO_MAPPING:bazel_lib+,bazel_skylib bazel_skylib+",

@@ -250,7 +250,7 @@
     },
     "@@rules_fable~//fable:extensions.bzl%toolchains": {
       "general": {
-        "bzlTransitiveDigest": "l9xIjo0ELwUJW3CL6XnsAIKBUlNSR1NIX0OS4PHg31s=",
+        "bzlTransitiveDigest": "ijK3yJOCH6obv/AVSGTujhd3RJUE7oa6SSRLkV6ZlpA=",
         "usagesDigest": "uRsiG0X8wtna6yPYhLuaAGKVgxUe5eAaTbqCdCQXoPA=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
