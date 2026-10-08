@@ -193,7 +193,7 @@
   "moduleExtensions": {
     "//fable:extensions.bzl%toolchains": {
       "general": {
-        "bzlTransitiveDigest": "98BClpsdFnk5bIBeUzkRUZvVyq0w4nzjbY+BP+BA4Io=",
+        "bzlTransitiveDigest": "F7T99kQnucsG9O+Cxc+GNip//xx7csvXEAuAN1/qIS0=",
         "usagesDigest": "g0b8t+dez3VutB6c+DPnIX1TgSU1LLr/tuFXuoBFIl0=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},

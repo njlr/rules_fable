@@ -4,9 +4,7 @@
   "tools": {
     "paket": {
       "version": "10.3.1",
-      "commands": [
-        "paket"
-      ],
+      "commands": ["paket"],
       "rollForward": false
     }
   }

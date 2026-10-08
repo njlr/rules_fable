@@ -1,6 +1,10 @@
 """Rule implementations for Fable."""
 
+# rules_dotnet exposes these providers and transitions only through private modules.
+# buildifier: disable=bzl-visibility
 load("@rules_dotnet//dotnet/private:providers.bzl", "DotnetAssemblyRuntimeInfo", "NuGetInfo")
+
+# buildifier: disable=bzl-visibility
 load("@rules_dotnet//dotnet/private/transitions:tfm_transition.bzl", "tfm_transition")
 load(":providers.bzl", "FableBinaryInfo", "FableLibraryInfo", "FableToolchainInfo")
 

@@ -7,7 +7,11 @@ module.exports = {
   },
   resolve: {
     modules: [
-      path.resolve(process.cwd(), process.env.BAZEL_BINDIR || "bazel-bin", "node_modules"),
+      path.resolve(
+        process.cwd(),
+        process.env.BAZEL_BINDIR || "bazel-bin",
+        "node_modules",
+      ),
       "node_modules",
     ],
   },

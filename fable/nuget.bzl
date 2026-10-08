@@ -4,7 +4,11 @@ load("@rules_dotnet//dotnet:defs.bzl", "nuget_repo")
 load(":versions.bzl", "DEFAULT_FABLE_COMPILER_VERSION", "FABLE_COMPILER_VERSIONS")
 
 def rules_fable_nuget_packages(fable_version = DEFAULT_FABLE_COMPILER_VERSION):
-    """Declares locked NuGet packages used by the default Fable rules."""
+    """Declares locked NuGet packages used by the default Fable rules.
+
+    Args:
+        fable_version: Fable compiler version whose locked packages to declare.
+    """
     metadata = FABLE_COMPILER_VERSIONS[fable_version]
     packages = []
     for package in [metadata["fable"]] + metadata["baseline_packages"]:

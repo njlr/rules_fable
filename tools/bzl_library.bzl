@@ -3,7 +3,15 @@
 load("@bazel_skylib//:bzl_library.bzl", _bzl_library = "bzl_library")
 
 def bzl_library(name, srcs, deps = [], doc_deps = [], **kwargs):
-    """Creates a bzl_library and a paired starlark_doc_extract target."""
+    """Creates a bzl_library and a paired starlark_doc_extract target.
+
+    Args:
+        name: Library target name.
+        srcs: Exactly one Starlark source file.
+        deps: Starlark library dependencies.
+        doc_deps: Additional libraries required for documentation extraction.
+        **kwargs: Additional attributes passed to bzl_library.
+    """
     _bzl_library(
         name = name,
         srcs = srcs,
