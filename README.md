@@ -1,5 +1,7 @@
 # Bazel rules for Fable
 
+`rules_fable` integrates the [Fable compiler](https://github.com/fable-compiler/fable) with Bazel. 
+
 ## Installation
 
 With bzlmod:

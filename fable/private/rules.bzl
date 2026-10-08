@@ -189,7 +189,7 @@ _FABLE_TARGET_ATTRS = {
     ),
 }
 
-_fable_library_rule = rule(
+fable_library = rule(
     implementation = _fable_library_impl,
     attrs = _FABLE_TARGET_ATTRS,
     doc = "Collects ordered F# sources and generates an fsproj for Fable.",
@@ -220,21 +220,6 @@ fable_toolchain = rule(
     },
     doc = "Defines a Fable compiler toolchain implementation.",
 )
-
-def fable_library(name, **kwargs):
-    """Collects ordered F# sources and generates an fsproj for Fable.
-
-    Also creates a `<name>_lib` alias for BUILD files that use a library-style
-    naming convention at consumption sites.
-    """
-    _fable_library_rule(
-        name = name,
-        **kwargs
-    )
-    native.alias(
-        name = name + "_lib",
-        actual = ":" + name,
-    )
 
 def _copy_inputs_fragment(srcs):
     lines = []

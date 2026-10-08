@@ -76,6 +76,30 @@ Transpiles a fable_library to a JavaScript output directory.
 | <a id="fable_js_library-target_framework"></a>target_framework |  Target framework moniker used to resolve projection-level NuGet deps.   | String | optional |  `"netstandard2.1"`  |
 
 
+<a id="fable_library"></a>
+
+## fable_library
+
+<pre>
+load("@rules_fable//fable:defs.bzl", "fable_library")
+
+fable_library(<a href="#fable_library-name">name</a>, <a href="#fable_library-deps">deps</a>, <a href="#fable_library-srcs">srcs</a>, <a href="#fable_library-package_references">package_references</a>, <a href="#fable_library-target_framework">target_framework</a>)
+</pre>
+
+Collects ordered F# sources and generates an fsproj for Fable.
+
+**ATTRIBUTES**
+
+
+| Name  | Description | Type | Mandatory | Default |
+| :------------- | :------------- | :------------- | :------------- | :------------- |
+| <a id="fable_library-name"></a>name |  A unique name for this target.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
+| <a id="fable_library-deps"></a>deps |  Other fable_library/fable_binary targets or rules_dotnet NuGet package targets.   | <a href="https://bazel.build/concepts/labels">List of labels</a> | optional |  `[]`  |
+| <a id="fable_library-srcs"></a>srcs |  Ordered F# source files. F# compilation order is significant.   | <a href="https://bazel.build/concepts/labels">List of labels</a> | required |  |
+| <a id="fable_library-package_references"></a>package_references |  NuGet PackageReference entries to include in generated fsproj files.   | <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a> | optional |  `{}`  |
+| <a id="fable_library-target_framework"></a>target_framework |  Target framework moniker for the generated fsproj.   | String | optional |  `"netstandard2.1"`  |
+
+
 <a id="fable_py_binary"></a>
 
 ## fable_py_binary
@@ -147,29 +171,5 @@ Defines a Fable compiler toolchain implementation.
 | <a id="fable_toolchain-fable_tool_nupkg"></a>fable_tool_nupkg |  Fable .NET tool NuGet package.   | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
 | <a id="fable_toolchain-fable_version"></a>fable_version |  Fable compiler version.   | String | required |  |
 | <a id="fable_toolchain-package_nupkgs"></a>package_nupkgs |  Baseline NuGet package artifacts available to generated Fable projects.   | <a href="https://bazel.build/concepts/labels">List of labels</a> | optional |  `[]`  |
-
-
-<a id="fable_library"></a>
-
-## fable_library
-
-<pre>
-load("@rules_fable//fable:defs.bzl", "fable_library")
-
-fable_library(<a href="#fable_library-name">name</a>, <a href="#fable_library-kwargs">**kwargs</a>)
-</pre>
-
-Collects ordered F# sources and generates an fsproj for Fable.
-
-Also creates a `<name>_lib` alias for BUILD files that use a library-style
-naming convention at consumption sites.
-
-**PARAMETERS**
-
-
-| Name  | Description | Default Value |
-| :------------- | :------------- | :------------- |
-| <a id="fable_library-name"></a>name |  <p align="center"> - </p>   |  none |
-| <a id="fable_library-kwargs"></a>kwargs |  <p align="center"> - </p>   |  none |
 
 
