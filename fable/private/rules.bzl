@@ -462,8 +462,10 @@ cat > "$project_dir/{project_name}.fsproj" <<'__FABLE_PROJECT__'
 __FABLE_PROJECT__
 cd "$project_dir"
 {dotnet} tool restore
+# Restore before Fable so set -e stops the action on any restore failure.
+{dotnet} restore "{project_name}.fsproj" -p:FABLE_COMPILER=true -p:FABLE_COMPILER_{fable_major}=true -p:FABLE_COMPILER_{fable_language}=true
 # Bazel caches action outputs; always compile without Fable's own cache.
-{dotnet} tool run fable -- "{project_name}.fsproj" --outDir "$execroot/{out_dir}" {language_args} {fable_args} --noCache
+{dotnet} tool run fable -- "{project_name}.fsproj" --outDir "$execroot/{out_dir}" {language_args} {fable_args} --noCache --noRestore
 # This compiler cache contains absolute machine paths and is not a runtime asset.
 rm -f "$execroot/{out_dir}/fable_modules/project_cracked.json"
 {post_compile}
@@ -474,6 +476,8 @@ rm -f "$execroot/{out_dir}/fable_modules/project_cracked.json"
         copy_feed = _copy_feed_fragment(nupkgs),
         nuget_config = _nuget_config(),
         tool_manifest = _tool_manifest(fable_toolchain.fable_version),
+        fable_major = fable_toolchain.fable_version.split(".")[0],
+        fable_language = language.upper(),
         copy_inputs = _copy_inputs_fragment(srcs),
         project_name = ctx.label.name,
         target_framework = _xml_escape(library.target_framework),
