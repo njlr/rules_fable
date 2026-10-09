@@ -11,7 +11,7 @@ common:ruleset --check_direct_dependencies="off"
 # Disable repository telemetry.
 common --repo_env=DO_NOT_TRACK=1
 
-# Required until this is the default; expected in Bazel 7
+# Use Bzlmod for dependency management.
 common --enable_bzlmod
 
 # Load any settings specific to the current user.
