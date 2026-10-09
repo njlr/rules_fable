@@ -17,6 +17,7 @@ jobs:
   test:
     uses: bazel-contrib/.github/.github/workflows/bazel.yaml@v7.7.0
     with:
+      bazel_versions: '["8.0.0", "8.x"]'
       folders: |
         [
           ".",
@@ -25,12 +26,7 @@ jobs:
         ]
       exclude: |
         [
-          {"bzlmodEnabled": false},
-          {"bazelVersion": "6.4.0"},
-          {"folder": ".", "bzlmodEnabled": false},
-          {"folder": "e2e/smoke", "bzlmodEnabled": false},
-          {"folder": "e2e/nuget", "bzlmodEnabled": false},
-          {"folder": ".", "bazelVersion": "6.4.0"}
+          {"bzlmodEnabled": false}
         ]
   pre-commit:
     runs-on: ubuntu-latest

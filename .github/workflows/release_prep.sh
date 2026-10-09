@@ -24,7 +24,7 @@ tar --create --auto-compress \
     --file "$GITHUB_WORKSPACE/${ARCHIVE%.tar.gz}.docs.tar.gz" .
 
 cat << EOF
-## Using Bzlmod with Bazel 7 or greater
+## Using Bzlmod with Bazel 8 or greater
 
 Add to your \`MODULE.bazel\` file:
 
