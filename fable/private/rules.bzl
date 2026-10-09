@@ -462,7 +462,8 @@ cat > "$project_dir/{project_name}.fsproj" <<'__FABLE_PROJECT__'
 __FABLE_PROJECT__
 cd "$project_dir"
 {dotnet} tool restore
-{dotnet} tool run fable -- "{project_name}.fsproj" --outDir "$execroot/{out_dir}" {language_args} {fable_args}
+# Bazel caches action outputs; always compile without Fable's own cache.
+{dotnet} tool run fable -- "{project_name}.fsproj" --outDir "$execroot/{out_dir}" {language_args} {fable_args} --noCache
 # This compiler cache contains absolute machine paths and is not a runtime asset.
 rm -f "$execroot/{out_dir}/fable_modules/project_cracked.json"
 {post_compile}
