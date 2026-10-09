@@ -4,7 +4,7 @@
 
 ## Installation
 
-With bzlmod:
+Requires Bazel 8.0.0 or greater. Install with bzlmod:
 
 ```starlark
 bazel_dep(name = "rules_fable", version = "0.0.0")
